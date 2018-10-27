@@ -1,0 +1,65 @@
+<aura:component controller="ProviderData_CC" implements="force:appHostable,force:hasRecordId,flexipage:availableForAllPageTypes,force:lightningQuickActionWithoutHeader" access="global" >
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="recordId" type="Id" />
+  <aura:attribute name="asyncInProgress" type="Boolean" default="true" /> 
+  <aura:attribute name="oneUnlock" type="Boolean" default="false" /> 
+  <aura:attribute name="providerData" type="map" /> 
+  <aura:html tag="style">
+      .cuf-content {
+          padding: 0 0rem !important;
+      }
+      .slds-p-around_medium {
+          padding: 0rem !important;
+      }       
+      .slds-modal__content{
+          
+          height:unset !important;
+          max-height:unset !important;
+      }
+      .slds-spinner_container{
+        overflow-y:hidden !important;
+        height:unset !important;
+        width:unset !important;
+        max-height:unset !important;
+        max-width:unset !important;
+    }
+  </aura:html>
+  <!-- start container -->
+  <div class="slds-box slds-theme_default slds-container_large slds-container_center">
+    <aura:if isTrue="{!v.asyncInProgress }">
+      <div class="slds-spinner_container">  
+        <lightning:spinner alternativeText="Loading" aura:id="mySpinner" />    
+      </div>    
+    </aura:if>
+    <lightning:tabset selectedTabId="one">
+      
+      <lightning:tab label="Additional Provider Info" id="one">
+        <aura:if isTrue="{!v.oneUnlock}">
+            <lightning:button variant="brand" label="Lock" onclick="{!c.lockOne}" />
+            <lightning:input name="inputproviderid" disabled="true" value="{!v.providerData.User_ID}" label="User ID" />
+            <lightning:input name="inputproviderType" disabled="true" value="{!v.providerData.provider_type}" label="Provider Type" />
+            <lightning:input name="inputproviderNumber" disabled="true" value="(555) 123-4567" label="Reminder Number" />
+            <lightning:input name="inputproviderDocGroup" disabled="true" value="{!v.providerData.doctor_group}" label="Doctor/Psychologist Group" />
+            <lightning:input name="inputproviderPracticeOnly" disabled="true" value="{!v.providerData.is_practice_only}" label="Is Practice Only?" />
+            <lightning:input name="inputproviderallowadhoc" disabled="true" value="{!v.providerData.allow_adhoc}" label="Allow ad hoc?" />
+            <lightning:input name="inputproviderallowprovspecappt" disabled="true" value="{!v.providerData.allow_provider_specific_appointments}" label="Allow Provider-specific Appointments?" />
+            
+            <!--
+            <lightning:input name="inputallowselfsched" disabled="true" value="{!v.providerData.allow_self_scheduling}" label="Allow Self-Scheduling?" />
+            <lightning:input name="inputdegrees" disabled="true" value="{!v.providerData.degrees}" label="Degrees" />
+            <lightning:input name="inputUSstates" disabled="true" value="{!v.providerData.us_states}" label="US States" />
+            <lightning:input name="inputSpokenLanguages" disabled="true" value="{!v.providerData.spoken_languages}" label="Spoken Languages" />
+        	<lightning:input name="inputSpecialties" disabled="true" value="{!v.providerData.specialties}" label="Specialties" />
+			-->
+          <aura:set attribute="else">
+            <lightning:button variant="brand" label="Unlock" onclick="{!c.unlockOne}" />
+
+          </aura:set>
+        </aura:if>
+      </lightning:tab>
+      
+      
+  </lightning:tabset>
+  </div>
+  <!-- end container -->
+</aura:component>

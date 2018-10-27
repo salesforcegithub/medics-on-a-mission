@@ -1,0 +1,20 @@
+{
+    "projectName": "DoD_SBX",
+    "username": "dberman+dodsbx@relationedge.com",
+    "id": "6246c440-9c03-11e8-9bbe-51135b851009",
+    "namespace": "",
+    "orgType": "developer",
+    "loginUrl": "https://login.salesforce.com/",
+    "instanceUrl": "https://doctorondemand--REDevEnv.my.salesforce.com",
+    "workspace": "/Users/davidberman/Dropbox/workspace/mavensmate",
+    "subscription": [
+        "ApexClass",
+        "ApexComponent",
+        "ApexPage",
+        "ApexTrigger",
+        "AuraDefinitionBundle",
+        "AuthProvider",
+        "CustomApplication",
+        "StaticResource"
+    ]
+}

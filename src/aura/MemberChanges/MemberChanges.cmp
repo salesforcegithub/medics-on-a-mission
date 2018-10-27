@@ -1,0 +1,73 @@
+<aura:component controller="MemberChanges_CC" implements="force:appHostable,force:hasRecordId,flexipage:availableForAllPageTypes,force:lightningQuickActionWithoutHeader" access="global" >
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>  
+  <aura:attribute name="updateAccount" type="Account" />
+  <aura:attribute name="emailPattern" type="String" default="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"/>
+  <!-- <aura:attribute name="emailPattern" type="String" default="^(([^<>()\[\]\\.,;:\s@“]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a–zA–Z\–0–9]+\.)+[a–zA–Z]{2,}))$"/> -->
+  <aura:attribute name="originalAccount" type="Account" />
+  <aura:attribute name="asyncInProgress" type="Boolean" default="true" />
+
+  <aura:html tag="style">
+      .cuf-content {
+          padding: 0 0rem !important;
+      }
+      .slds-p-around_medium {
+          padding: 0rem !important;
+      }       
+      .slds-modal__content{
+          
+          height:unset !important;
+          max-height:unset !important;
+      }
+      .slds-spinner_container{
+        overflow-y:hidden !important;
+        height:unset !important;
+        width:unset !important;
+        max-height:unset !important;
+        max-width:unset !important;
+    }
+  </aura:html>
+  <lightning:notificationsLibrary aura:id="notifLib"/>
+  <div class="slds-theme_default slds-container_large slds-container_center">
+    <aura:if isTrue="{!v.asyncInProgress }">
+      <div class="slds-spinner_container">  
+        <lightning:spinner alternativeText="Loading" aura:id="mySpinner" />    
+      </div>    
+    </aura:if>
+
+    <lightning:input name="FName" value="{!v.updateAccount.Member_First_Name__c}" label="First Name" />
+    <lightning:input name="MName" value="{!v.updateAccount.Member_Middle_Name__c}" label="Middle Name" />
+    <lightning:input name="LName" value="{!v.updateAccount.Member_Last_Name__c}" label="Last Name" />
+    <lightning:input type="tel" name="Phone" value="{!v.updateAccount.Phone}" label="Phone" messageWhenPatternMismatch="Phone number is not a possible US number" pattern="[0-9]{3}[0-9]{3}[0-9]{4}"/>
+    <lightning:input required="true" type="email" pattern="{!v.emailPattern}" name="Email" messageWhenPatternMismatch="Email is invalid" value="{!v.updateAccount.Email__c}" label="Email" />
+    <lightning:input required="true" type="date" name="dob" value="{!v.updateAccount.Date_of_Birth__c}" label="Date of Birth" />
+    <!-- <lightning:input name="Gender" value="{!v.updateAccount.Gender__c}" label="Gender" /> -->
+    <lightning:select required="true" name="Gender" value="{!v.updateAccount.Gender__c}" label="Gender" >
+      <option value="">choose one...</option>
+      <option value="M">Male</option>
+      <option value="F">Female</option>
+      <option value="O">Other</option>
+    </lightning:select>
+    <lightning:inputAddress
+      addressLabel="Mailing Address"
+      streetLabel="Street"
+      cityLabel="City"
+      countryLabel="Country"
+      provinceLabel="State"
+      postalCodeLabel="PostalCode"
+      street="{!v.updateAccount.BillingStreet}"
+      city="{!v.updateAccount.BillingCity}"
+      country="{!v.updateAccount.BillingCountry}"
+      province="{!v.updateAccount.BillingState}"
+      postalCode="{!v.updateAccount.BillingPostalCode}"
+      required="false"
+      fieldLevelHelp="Members Billing Address"
+    />
+  
+    <div class="slds-p-top_small">
+      <lightning:button variant="brand" label="Update" onclick="{!c.updateMember}" />
+      <lightning:button label="Close" onclick="{!c.closeWindow}" />
+    </div>
+  </div>
+
+  
+</aura:component>

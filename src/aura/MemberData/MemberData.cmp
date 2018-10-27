@@ -1,0 +1,70 @@
+<aura:component controller="MemberData_CC" implements="force:appHostable,force:hasRecordId,flexipage:availableForAllPageTypes,force:lightningQuickActionWithoutHeader" access="global" >
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+  <aura:attribute name="recordId" type="Id" />
+  <aura:attribute name="asyncInProgress" type="Boolean" default="true" /> 
+  <aura:attribute name="oneUnlock" type="Boolean" default="false" /> 
+  <aura:attribute name="memberData" type="map" /> 
+  <aura:html tag="style">
+      .cuf-content {
+          padding: 0 0rem !important;
+      }
+      .slds-p-around_medium {
+          padding: 0rem !important;
+      }       
+      .slds-modal__content{
+          
+          height:unset !important;
+          max-height:unset !important;
+      }
+      .slds-spinner_container{
+        overflow-y:hidden !important;
+        height:unset !important;
+        width:unset !important;
+        max-height:unset !important;
+        max-width:unset !important;
+    }
+  </aura:html>
+  <!-- start container -->
+  <div class="slds-box slds-theme_default slds-container_large slds-container_center">
+    <aura:if isTrue="{!v.asyncInProgress }">
+      <div class="slds-spinner_container">  
+        <lightning:spinner alternativeText="Loading" aura:id="mySpinner" />    
+      </div>    
+    </aura:if>
+    <lightning:tabset selectedTabId="one">
+      
+      <lightning:tab label="Additional Member Info" id="one">
+        <aura:if isTrue="{!v.oneUnlock}">
+          <lightning:button variant="brand" label="Lock" onclick="{!c.lockOne}" />
+          <!-- <h2 class="slds-section-title- -divider">Provider Information</h2>-->
+          
+          <lightning:input name="inputPrefix" disabled="true" value="{!v.memberData.user_prefix}" label="Prefix" />
+          <lightning:input name="inputSuffix" disabled="true" value="{!v.memberData.user_suffix}" label="Suffix" />
+          <lightning:input name="inputIsCustodial" disabled="true" value="{!v.memberData.is_custodial}" label="Is Custodial" />
+          <lightning:input name="inputEmployer" disabled="true" value="{!v.memberData.employer_name}" label="Employer" />
+          <lightning:input name="inputInsuPayer" disabled="true" value="{!v.memberData.insurance_payer}" label="Insurance: Payer" />
+          <lightning:input name="inputInsuActive" disabled="true" value="{!v.memberData.insurance_active}" label="Insurance: Active?" />
+          <lightning:input name="inputInsuGroupID" disabled="true" value="{!v.memberData.insurance_group_id}" label="Insurance: Group ID" />
+          <lightning:input name="inputInsuMemberID" disabled="true" value="{!v.memberData.insurance_member_id}" label="Insurance: Member ID" />
+          
+          <!--<lightning:input name="inputLastLocation" disabled="true" value="{!v.memberData.last_location}" label="Last Location" />
+          <lightning:input name="input15" disabled="true" value="{!v.memberData.last_login}" label="Last Login" />-->
+            
+            
+          <aura:set attribute="else">
+            <lightning:button variant="brand" label="Unlock" onclick="{!c.unlockOne}" />
+
+          </aura:set>
+        </aura:if>
+      </lightning:tab>
+      
+      
+      <!--
+      <lightning:tab label="HIPAA" id="three">
+          They are watching!
+      </lightning:tab>
+    -->
+  </lightning:tabset>
+  </div>
+  <!-- end container -->
+</aura:component>

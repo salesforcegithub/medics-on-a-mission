@@ -1,0 +1,57 @@
+<aura:component controller="MemberPsychAppointments_CC" 
+                implements="force:appHostable,force:hasRecordId,flexipage:availableForAllPageTypes,force:lightningQuickActionWithoutHeader" 
+                access="GLOBAL"
+                >
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="oneUnlock" type="Boolean" default="false" />
+    <aura:attribute name="wrapperList" type="object"/>
+    
+    <div class="slds-p-around--large">
+        <aura:if isTrue="{!v.oneUnlock}">
+            <lightning:button variant="brand" label="Lock" onclick="{!c.lockOne}" />
+            <h1>{!v.wrapperList.headerMsg}</h1>
+            <!--https://www.lightningdesignsystem.com/components/data-tables/-->
+            <table class="slds-table slds-table_bordered slds-table_resizable-cols slds-table_fixed-layout">
+                <thead>
+                    <tr class="slds-text-title--caps">
+                        <!-- <th scope="col">
+            <div class="slds-truncate" title="Created">Created</div>
+          </th>-->
+                        <th scope="col" class="slds-cell-wrap"><div class="slds-cell-wrap" title="CID">CID</div></th>
+                        <th scope="col" class="slds-cell-wrap"><div class="slds-cell-wrap" title="Apt">Apt</div></th>
+                        <th scope="col" class="slds-cell-wrap"><div class="slds-cell-wrap" title="Provider">Provider</div></th>
+                        <th scope="col" class="slds-cell-wrap"><div class="slds-cell-wrap" title="Provider Type">Provider Type</div></th>
+                        <th scope="col" class="slds-cell-wrap"><div class="slds-cell-wrap" title="Sched.Start">Sched.Start</div></th>
+                        <th scope="col" class="slds-cell-wrap"><div class="slds-cell-wrap" title="Start">Start</div></th>
+                        <th scope="col" class="slds-cell-wrap"><div class="slds-cell-wrap" title="Duration">Duration</div></th>
+                        <th scope="col" class="slds-cell-wrap"><div class="slds-cell-wrap" title="End Status">End Status</div></th>
+                    </tr>
+                </thead>
+                <!-- data -->
+                
+                <tbody>
+                    <aura:iteration items="{!v.wrapperList.lstAppointments}" var="mma">
+                        <tr>
+                            <th scope="row"><div class="slds-cell-wrap" title="{!mma.cid}">{!mma.cid}</div></th>
+                            <th scope="row"><div class="slds-cell-wrap" title="{!mma.is_appointment}">{!mma.is_appointment}</div></th>
+                            <th scope="row"><div class="slds-cell-wrap" title="{!mma.provider_name}">{!mma.provider_name}</div></th>
+                            <th scope="row"><div class="slds-cell-wrap" title="{!mma.provider_type}">{!mma.provider_type}</div></th>
+                            <th scope="row"><div class="slds-cell-wrap" title="{!mma.scheduled_start_time}">{!mma.scheduled_start_time}</div></th>
+                            <th scope="row"><div class="slds-cell-wrap" title="{!mma.start_time}">{!mma.start_time}</div></th>
+                            <th scope="row"><div class="slds-cell-wrap" title="{!mma.duration}">{!mma.duration}</div></th>
+                            <th scope="row"><div class="slds-cell-wrap" title="{!mma.end_status}">{!mma.end_status}</div></th>
+                            
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+            <aura:set attribute="else">
+                <lightning:button variant="brand" label="Unlock Member Behavioral-Health Appointments" onclick="{!c.unlockOne}" />
+                
+            </aura:set>
+        </aura:if>
+    </div>
+    
+    
+</aura:component>
